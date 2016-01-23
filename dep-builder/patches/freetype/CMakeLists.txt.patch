@@ -1,0 +1,20 @@
+*** CMakeLists.txt	2016-01-23 19:51:33.000000000 +0100
+--- CMakeLists.txt.new	2016-01-23 19:51:28.000000000 +0100
+***************
+*** 101,108 ****
+      # iOS only uses static libraries
+      set(BUILD_SHARED_LIBS OFF)
+  
+!     set(CMAKE_TOOLCHAIN_FILE
+!       ${PROJECT_SOURCE_DIR}/builds/cmake/iOS.cmake)
+    endif ()
+  else ()
+    if (DEFINED IOS_PLATFORM)
+--- 101,107 ----
+      # iOS only uses static libraries
+      set(BUILD_SHARED_LIBS OFF)
+  
+!     set(CMAKE_TOOLCHAIN_FILE builds/cmake/iOS.cmake)
+    endif ()
+  else ()
+    if (DEFINED IOS_PLATFORM)

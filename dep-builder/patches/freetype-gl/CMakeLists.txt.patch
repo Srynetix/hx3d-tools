@@ -1,0 +1,32 @@
+*** CMakeLists.txt	2016-01-23 21:05:32.000000000 +0100
+--- CMakeLists.txt.new	2016-01-23 21:05:20.000000000 +0100
+***************
+*** 43,50 ****
+  OPTION(freetype-gl_GLFW_SUPPLIED "GLFW library is supplied as part of parent build" OFF)
+  
+  # Get required and optional library
+- FIND_PACKAGE( OpenGL REQUIRED )
+  IF( WIN32 OR WIN64 )
+  	SET( WINDOWS_DIR
+           ${CMAKE_CURRENT_SOURCE_DIR}/windows )
+      SET( GLEW_INCLUDE_PATH
+--- 43,50 ----
+  OPTION(freetype-gl_GLFW_SUPPLIED "GLFW library is supplied as part of parent build" OFF)
+  
+  # Get required and optional library
+  IF( WIN32 OR WIN64 )
++   FIND_PACKAGE( OpenGL REQUIRED )
+  	SET( WINDOWS_DIR
+           ${CMAKE_CURRENT_SOURCE_DIR}/windows )
+      SET( GLEW_INCLUDE_PATH
+***************
+*** 81,86 ****
+--- 81,88 ----
+      FIND_PACKAGE( glfw3 REQUIRED )
+  ENDIF ( NOT freetype-gl_LIBS_SUPPLIED )
+  
++ set (FREETYPE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../freetype-2.6.2/include)
++ 
+  INCLUDE_DIRECTORIES( ${GLFW3_INCLUDE_DIR}
+                       ${OPENGL_INCLUDE_DIRS}
+                       ${FREETYPE_INCLUDE_DIRS}
