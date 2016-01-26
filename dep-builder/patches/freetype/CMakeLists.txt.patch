@@ -1,5 +1,5 @@
-*** CMakeLists.txt	2016-01-23 19:51:33.000000000 +0100
---- CMakeLists.txt.new	2016-01-23 19:51:28.000000000 +0100
+*** CMakeLists.txt	2015-11-28 19:08:52.000000000 +0100
+--- ft.CMakeLists.txt	2016-01-26 21:59:49.129285147 +0100
 ***************
 *** 101,108 ****
       # iOS only uses static libraries
@@ -18,3 +18,13 @@
     endif ()
   else ()
     if (DEFINED IOS_PLATFORM)
+***************
+*** 110,115 ****
+--- 109,115 ----
+    endif ()
+  endif ()
+  
++ set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+  
+  project(freetype)
+  
