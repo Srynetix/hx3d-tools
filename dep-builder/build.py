@@ -165,7 +165,8 @@ def buildAndroid():
     executeInFolder("SDL2_mixer", "cp obj/local/armeabi-v7a/libSDL2_mixer.a ../../build/android/lib/armeabi-v7a/")
     executeInFolder("SDL2_mixer", "cp obj/local/x86/libSDL2_mixer.a ../../build/android/lib/x86/")
     executeInFolder("SDL2_mixer", "cp SDL_mixer.h ../../build/android/include/SDL2/")
-
+    executeInFolder("SDL2_mixer", "rm -r jni")
+    
     # freetype
     executeInFolder("freetype", "mkdir -p android-build")
 
@@ -185,6 +186,7 @@ def buildAndroid():
     executeInFolder("freetype", "cp -r android-build/include/* ../../build/android/include/")
 
     # freetype-gl
+    execCommand("mkdir -p build/android/include/freetype-gl")
     executeInFolder("freetype-gl", "mkdir -p android-build")
 
     executeInFolder("freetype-gl", "cd android-build && cmake -G Ninja -D CMAKE_TOOLCHAIN_FILE=CMakeModules/android.toolchain.cmake -D ANDROID_ABI=armeabi -Dfreetype-gl_BUILD_DEMOS=OFF -Dfreetype-gl_BUILD_APIDOC=OFF -Dfreetype-gl_BUILD_MAKEFONT=OFF -Dfreetype-gl_LIBS_SUPPLIED=ON -Dfreetype-gl_GLFW_SUPPLIED=ON ..")
@@ -198,6 +200,8 @@ def buildAndroid():
     executeInFolder("freetype-gl", "cd android-build && cmake -G Ninja -D CMAKE_TOOLCHAIN_FILE=CMakeModules/android.toolchain.cmake -D ANDROID_ABI=x86 -Dfreetype-gl_BUILD_DEMOS=OFF -Dfreetype-gl_BUILD_APIDOC=OFF -Dfreetype-gl_BUILD_MAKEFONT=OFF -Dfreetype-gl_LIBS_SUPPLIED=ON -Dfreetype-gl_GLFW_SUPPLIED=ON ..")
     executeInFolder("freetype-gl", "cd android-build && ninja")
     executeInFolder("freetype-gl", "cp android-build/libfreetype-gl.a ../../build/android/lib/x86")
+
+    executeInFolder("freetype-gl", "cp *.h ../../build/android/include/freetype-gl")
 
 def buildIOS():
     execCommand("mkdir -p build/lib/ios")
