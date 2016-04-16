@@ -1,0 +1,72 @@
+*** CMakeLists.txt	2016-01-26 22:02:33.143823626 +0100
+--- ftgl.CMakeLists.txt	2016-01-26 22:03:10.607427066 +0100
+***************
+*** 43,50 ****
+  OPTION(freetype-gl_GLFW_SUPPLIED "GLFW library is supplied as part of parent build" OFF)
+  
+  # Get required and optional library
+- FIND_PACKAGE( OpenGL REQUIRED )
+  IF( WIN32 OR WIN64 )
+  	SET( WINDOWS_DIR
+           ${CMAKE_CURRENT_SOURCE_DIR}/windows )
+      SET( GLEW_INCLUDE_PATH
+--- 43,50 ----
+  OPTION(freetype-gl_GLFW_SUPPLIED "GLFW library is supplied as part of parent build" OFF)
+  
+  # Get required and optional library
+  IF( WIN32 OR WIN64 )
++   FIND_PACKAGE( OpenGL REQUIRED )
+  	SET( WINDOWS_DIR
+           ${CMAKE_CURRENT_SOURCE_DIR}/windows )
+      SET( GLEW_INCLUDE_PATH
+***************
+*** 64,75 ****
+  ELSE( WIN32 OR WIN64 )
+      IF ( freetype-gl_LIBS_SUPPLIED )
+          FIND_PACKAGE( Freetype )
+!         IF ( NOT APPLE )
+              FIND_PACKAGE( GLEW )
+          ENDIF()
+      ELSE ( freetype-gl_LIBS_SUPPLIED )
+          FIND_PACKAGE( Freetype REQUIRED )
+!         IF ( NOT APPLE )
+              FIND_PACKAGE( GLEW REQUIRED )
+          ENDIF()
+      ENDIF ( freetype-gl_LIBS_SUPPLIED )
+--- 64,77 ----
+  ELSE( WIN32 OR WIN64 )
+      IF ( freetype-gl_LIBS_SUPPLIED )
+          FIND_PACKAGE( Freetype )
+!         IF ( NOT APPLE AND NOT ANDROID)
+              FIND_PACKAGE( GLEW )
++         ELSEIF(ANDROID)
++           SET(GLEW_INCLUDE_PATH "")
+          ENDIF()
+      ELSE ( freetype-gl_LIBS_SUPPLIED )
+          FIND_PACKAGE( Freetype REQUIRED )
+!         IF ( NOT APPLE AND NOT ANDROID )
+              FIND_PACKAGE( GLEW REQUIRED )
+          ENDIF()
+      ENDIF ( freetype-gl_LIBS_SUPPLIED )
+***************
+*** 81,86 ****
+--- 83,90 ----
+      FIND_PACKAGE( glfw3 REQUIRED )
+  ENDIF ( NOT freetype-gl_LIBS_SUPPLIED )
+  
++ set (FREETYPE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../freetype-2.6.2/include)
++ 
+  INCLUDE_DIRECTORIES( ${GLFW3_INCLUDE_DIR}
+                       ${OPENGL_INCLUDE_DIRS}
+                       ${FREETYPE_INCLUDE_DIRS}
+***************
+*** 113,118 ****
+--- 117,124 ----
+                       distance-field.c   distance-field.h
+                       edtaa3func.c       edtaa3func.h)
+  
++ set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
++ 
+  ADD_LIBRARY( freetype-gl STATIC ${FREETYPE_GL_SRC} )
+  
+  LINK_DIRECTORIES(

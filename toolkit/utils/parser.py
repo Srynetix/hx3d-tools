@@ -19,7 +19,6 @@ from platforms.main_handler import MainHandler
 from platform import PLATFORMS
 
 class Parser:
-
     def __init__(self):
         self.parser = argparse.ArgumentParser(description='hx3d toolkit - simple game framework')
         self.subparsers_handler = self.parser.add_subparsers(dest='command')

@@ -1,6 +1,8 @@
 from .handler import Handler
 from commands import *
 from config import config
+from utils.dependency_fetch import get_fetch_folder, multiple_executions_in_folder, fetch_library
+
 
 class LinuxHandler(Handler):
     def __init__(self, command, args):
@@ -10,14 +12,16 @@ class LinuxHandler(Handler):
 
     def build(self):
         tests_active = "-DTESTS=ON" if self.tests else ""
-        CreateDirectoryCommand(self.build_folder).execute()
 
         Command.executeCommands([
+            CreateDirectoryCommand(self.build_folder),
             Command("CXX={} cd _build_linux && cmake -G Ninja {} ..".format(config.cxx_compiler, tests_active), stdout=True),
             Command("cd _build_linux && ninja"),
         ])
 
     def execute(self):
+        self.check_for_build_folder()
+
         game_dir = "tests" if self.tests else "game"
         debug_cmd = "{} ".format(config.debugger) if self.debug else ""
 
@@ -27,8 +31,56 @@ class LinuxHandler(Handler):
             Command("cd _build_linux/{dir} && {cmd}./{dir}".format(cmd=debug_cmd, dir=game_dir)),
         ])
 
-    def dep_build(self):
-        pass
+    def dep_fetch(self):
+        super().dep_fetch()
+
+        with fetch_library(self.platform, "SDL2") as library_info:
+            multiple_executions_in_folder(self.platform, library_info, [
+                "mkdir -p ../build/include/SDL2",
+                "cp include/*.h ../build/include/SDL2/",
+                "mkdir -p linux-build",
+                "cd linux-build && cmake -G Ninja -D SDL_SHARED=OFF ..",
+                "cd linux-build && ninja",
+                "cp -r linux-build/include/* ../build/include/SDL2/",
+                "cp -r linux-build/*.a ../build/lib/",
+            ])
+
+        with fetch_library(self.platform, "SDL2_mixer") as library_info:
+            multiple_executions_in_folder(self.platform, library_info, [
+                "./configure",
+                "make",
+                "cp build/.libs/*.a ../build/lib/",
+                "cp SDL_mixer.h ../build/include/SDL2/",
+            ])
+
+        with fetch_library(self.platform, "freetype") as library_info:
+            multiple_executions_in_folder(self.platform, library_info, [
+                "mkdir -p linux-build",
+                "cp -r include/* ../build/include/",
+                "cd linux-build && cmake -G Ninja ..",
+                "cd linux-build && ninja",
+                "cp linux-build/*.a ../build/lib/",
+                "cp -r linux-build/include/* ../build/include/",
+            ])
+
+        with fetch_library(self.platform, "freetype-gl") as freetype_gl:
+            multiple_executions_in_folder(self.platform, freetype_gl, [
+                "mkdir -p ../build/include/freetype-gl",
+                "mkdir -p linux-build",
+                "cd linux-build && cmake -G Ninja -Dfreetype-gl_BUILD_DEMOS=OFF -Dfreetype-gl_BUILD_APIDOC=OFF -Dfreetype-gl_BUILD_MAKEFONT=OFF -Dfreetype-gl_LIBS_SUPPLIED=ON -Dfreetype-gl_GLFW_SUPPLIED=ON ..",
+                "cd linux-build && ninja",
+                "cp linux-build/*.a ../build/lib/",
+                "cp *.h ../build/include/freetype-gl",
+            ])
+
+        with fetch_library(self.platform, "gtest") as gtest:
+            multiple_executions_in_folder(self.platform, gtest, [
+                "mkdir -p linux-build",
+                "cp -r include/* ../build/include/",
+                "cd linux-build && cmake -G Ninja ..",
+                "cd linux-build && ninja",
+                "cp linux-build/libgtest.a ../build/lib/",
+            ])
 
     def package(self):
         pass

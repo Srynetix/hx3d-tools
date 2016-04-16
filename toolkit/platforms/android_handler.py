@@ -119,6 +119,8 @@ class AndroidHandler(Handler):
             Command("cd game/android && ant debug -q").execute()
 
     def execute(self):
+        self.check_for_build_folder()
+        
         if self.tests:
             Command.executeCommands([
                 Command("cd tests/android && ant debug install -q"),

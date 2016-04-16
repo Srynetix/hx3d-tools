@@ -1,0 +1,36 @@
+*** project.pbxproj	2016-01-22 14:31:08.000000000 +0100
+--- project.pbxproj.new	2016-01-22 14:31:02.000000000 +0100
+***************
+*** 753,759 ****
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
+  				);
+! 				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(SRCROOT)/../../SDL/include\"";
+  				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/../external/libmodplug-0.8.8.4/src\" \"$(SRCROOT)/../external/libmodplug-0.8.8.4/src/libmodplug\" \"$(SRCROOT)/../external/libvorbisidec-1.2.1\" \"$(SRCROOT)/../external/libogg-1.3.1/include\"";
+  				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+  				SDKROOT = iphoneos;
+--- 753,759 ----
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
+  				);
+! 				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(SRCROOT)/../../SDL2-2.0.4/include\"";
+  				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/../external/libmodplug-0.8.8.4/src\" \"$(SRCROOT)/../external/libmodplug-0.8.8.4/src/libmodplug\" \"$(SRCROOT)/../external/libvorbisidec-1.2.1\" \"$(SRCROOT)/../external/libogg-1.3.1/include\"";
+  				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+  				SDKROOT = iphoneos;
+***************
+*** 782,788 ****
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
+  				);
+! 				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(SRCROOT)/../../SDL/include\"";
+  				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/../external/libmodplug-0.8.8.4/src\" \"$(SRCROOT)/../external/libmodplug-0.8.8.4/src/libmodplug\" \"$(SRCROOT)/../external/libvorbisidec-1.2.1\" \"$(SRCROOT)/../external/libogg-1.3.1/include\"";
+  				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+  				ONLY_ACTIVE_ARCH = YES;
+--- 782,788 ----
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+  					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
+  				);
+! 				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(SRCROOT)/../../SDL2-2.0.4/include\"";
+  				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/../external/libmodplug-0.8.8.4/src\" \"$(SRCROOT)/../external/libmodplug-0.8.8.4/src/libmodplug\" \"$(SRCROOT)/../external/libvorbisidec-1.2.1\" \"$(SRCROOT)/../external/libogg-1.3.1/include\"";
+  				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+  				ONLY_ACTIVE_ARCH = YES;
