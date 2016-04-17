@@ -1,8 +1,8 @@
 from .handler import Handler
 from commands import *
 from config import config
-from utils.dependency_fetch import get_fetch_folder, multiple_executions_in_folder, fetch_library
-
+from utils.dependency_fetch import multiple_executions_in_folder, fetch_library
+import os
 
 class LinuxHandler(Handler):
     def __init__(self, command, args):
@@ -15,7 +15,7 @@ class LinuxHandler(Handler):
 
         Command.executeCommands([
             CreateDirectoryCommand(self.build_folder),
-            Command("CXX={} cd _build_linux && cmake -G Ninja {} ..".format(config.cxx_compiler, tests_active), stdout=True),
+            Command("cd _build_linux && CXX={} cmake -G Ninja {} {} ..".format(config.cxx_compiler, self.get_providers_command(), tests_active), stdout=True),
             Command("cd _build_linux && ninja"),
         ])
 
@@ -32,12 +32,15 @@ class LinuxHandler(Handler):
         ])
 
     def dep_fetch(self):
+
+        if not os.path.exists(get_fetch_folder("common")):
+            MainHandler(self.command, self.args).handle()
+
         super().dep_fetch()
 
         with fetch_library(self.platform, "SDL2") as library_info:
             multiple_executions_in_folder(self.platform, library_info, [
                 "mkdir -p ../build/include/SDL2",
-                "cp include/*.h ../build/include/SDL2/",
                 "mkdir -p linux-build",
                 "cd linux-build && cmake -G Ninja -D SDL_SHARED=OFF ..",
                 "cd linux-build && ninja",
@@ -56,7 +59,6 @@ class LinuxHandler(Handler):
         with fetch_library(self.platform, "freetype") as library_info:
             multiple_executions_in_folder(self.platform, library_info, [
                 "mkdir -p linux-build",
-                "cp -r include/* ../build/include/",
                 "cd linux-build && cmake -G Ninja ..",
                 "cd linux-build && ninja",
                 "cp linux-build/*.a ../build/lib/",
@@ -65,18 +67,15 @@ class LinuxHandler(Handler):
 
         with fetch_library(self.platform, "freetype-gl") as freetype_gl:
             multiple_executions_in_folder(self.platform, freetype_gl, [
-                "mkdir -p ../build/include/freetype-gl",
                 "mkdir -p linux-build",
                 "cd linux-build && cmake -G Ninja -Dfreetype-gl_BUILD_DEMOS=OFF -Dfreetype-gl_BUILD_APIDOC=OFF -Dfreetype-gl_BUILD_MAKEFONT=OFF -Dfreetype-gl_LIBS_SUPPLIED=ON -Dfreetype-gl_GLFW_SUPPLIED=ON ..",
                 "cd linux-build && ninja",
                 "cp linux-build/*.a ../build/lib/",
-                "cp *.h ../build/include/freetype-gl",
             ])
 
         with fetch_library(self.platform, "gtest") as gtest:
             multiple_executions_in_folder(self.platform, gtest, [
                 "mkdir -p linux-build",
-                "cp -r include/* ../build/include/",
                 "cd linux-build && cmake -G Ninja ..",
                 "cd linux-build && ninja",
                 "cp linux-build/libgtest.a ../build/lib/",

@@ -114,11 +114,22 @@ def apply_injections(platform, library_info):
                 dst
             )).execute()
 
+def prepare_fresh_library(platform, library_info):
+    filename = library_info["filename"]
+    fetch_folder = get_fetch_folder(platform)
+
+    Command("cp _dep_fetch_common/{} {}/{}".format(filename, fetch_folder, filename)).execute()
+
+    extract_source(platform, library_info)
+
 @contextmanager
-def fetch_library(platform, library_name):
+def fetch_library(platform, library_name, source=False):
     try:
         library_info = fetch_library_info(library_name)
-        fetch_source(platform, library_info)
+        if source:
+            fetch_source(platform, library_info)
+        else:
+            prepare_fresh_library(platform, library_info)
 
         yield library_info
     finally:

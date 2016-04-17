@@ -12,6 +12,14 @@ debugger: gdb
 android_toolchain: /opt/custom-ndk
 android_build_type: Debug
 
+# Browser
+web_browser: xdg-open
+
+# Providers
+providers:
+  audio: SDL2
+  window: SDL2
+
 # Dependency fetch configuration
 dependencies:
   - name: "SDL2"

@@ -23,6 +23,7 @@ class AndroidHandler(Handler):
 
     def build(self):
         CreateDirectoryCommand(self.build_folder).execute()
+        tests_active = "-DTESTS=ON" if self.tests else ""
 
         Command.executeCommands([
 
@@ -31,10 +32,10 @@ class AndroidHandler(Handler):
                 "cd {} && \
                 cmake -GNinja \
                 -DANDROID_STANDALONE_TOOLCHAIN={} \
-                -DCMAKE_TOOLCHAIN_FILE=cmake/android.toolchain.cmake \
+                -DCMAKE_TOOLCHAIN_FILE=cmake/dependencies/android.toolchain.cmake \
                 -DANDROID_ABI=armeabi-v7a \
-                -DCMAKE_BUILD_TYPE={} .."
-                .format(self.build_folder, config.android_toolchain, config.android_build_type)
+                -DCMAKE_BUILD_TYPE={} {} {} .."
+                .format(self.build_folder, config.android_toolchain, config.android_build_type, self.get_providers_command(), tests_active)
             ),
 
             Command("cd {} && ninja".format(self.build_folder))
@@ -42,7 +43,7 @@ class AndroidHandler(Handler):
 
         if self.tests:
             android_path = "tests/android/ext/hx3d"
-            CreateDirectoryCommand(android_path)
+            CreateDirectoryCommand(android_path).execute()
 
             Command.executeCommands([
                 CopyFileCommand(
@@ -81,7 +82,7 @@ class AndroidHandler(Handler):
 
         else:
             android_path = "game/android/ext/hx3d"
-            CreateDirectoryCommand(android_path)
+            CreateDirectoryCommand(android_path).execute()
 
             Command.executeCommands([
                 CopyFileCommand(
@@ -89,8 +90,8 @@ class AndroidHandler(Handler):
                     "{}/libhx3d.so".format(android_path)
                 ),
                 CopyFileCommand(
-                    "{}/game/libtests.so".format(self.build_folder),
-                    "{}/libtests.so".format(android_path)
+                    "{}/game/libgame.so".format(self.build_folder),
+                    "{}/libgame.so".format(android_path)
                 ),
 
                 CopyDirectoryCommand(
@@ -120,7 +121,7 @@ class AndroidHandler(Handler):
 
     def execute(self):
         self.check_for_build_folder()
-        
+
         if self.tests:
             Command.executeCommands([
                 Command("cd tests/android && ant debug install -q"),
