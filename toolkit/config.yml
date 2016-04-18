@@ -2,7 +2,7 @@
 #####################
 
 # Debug mode
-debug_mode: True
+debug_mode: False
 
 # Compiler and debugger
 cxx_compiler: g++

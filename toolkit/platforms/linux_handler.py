@@ -15,7 +15,7 @@ class LinuxHandler(Handler):
 
         Command.executeCommands([
             CreateDirectoryCommand(self.build_folder),
-            Command("cd _build_linux && CXX={} cmake -G Ninja {} {} ..".format(config.cxx_compiler, self.get_providers_command(), tests_active), stdout=True),
+            Command("cd _build_linux && CXX={} cmake -G Ninja {} {} ..".format(config.cxx_compiler, self.get_providers_command(), tests_active)),
             Command("cd _build_linux && ninja"),
         ])
 
@@ -28,7 +28,7 @@ class LinuxHandler(Handler):
         Command.executeCommands([
             CopyDirectoryCommand("engine/assets", "_build_linux/{}/assets".format(game_dir)),
             CopyDirectoryCommand("{}/assets".format(game_dir), "_build_linux/{}/assets".format(game_dir)),
-            Command("cd _build_linux/{dir} && {cmd}./{dir}".format(cmd=debug_cmd, dir=game_dir)),
+            Command("cd _build_linux/{dir} && {cmd}./{dir}".format(cmd=debug_cmd, dir=game_dir), stdout=True),
         ])
 
     def dep_fetch(self):

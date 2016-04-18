@@ -15,12 +15,12 @@ class Command:
             command.execute()
 
     @staticmethod
-    def executeRawCommand(command, stderr=True, stdout=True):
-        if not stderr and not stdout:
+    def executeRawCommand(command, stderr=True, stdout=False):
+        if not stderr and not stdout and not config.debug_mode:
             command += " &> /dev/null"
         elif not stderr:
             command += " 2> /dev/null"
-        elif not stdout:
+        elif not stdout and not config.debug_mode:
             command += " > /dev/null"
 
         if config.debug_mode:
