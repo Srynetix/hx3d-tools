@@ -16,7 +16,7 @@ class LinuxHandler(Handler):
         Command.executeCommands([
             CreateDirectoryCommand(self.build_folder),
             Command("cd _build_linux && CXX={} cmake -G Ninja {} {} ..".format(config.cxx_compiler, self.get_providers_command(), tests_active)),
-            Command("cd _build_linux && ninja"),
+            Command("cd _build_linux && ninja", stdout=True),
         ])
 
     def execute(self):

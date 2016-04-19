@@ -24,7 +24,7 @@ class Parser:
     def __init__(self):
         self.parser = argparse.ArgumentParser(description='hx3d toolkit - simple game framework')
         self.subparsers_handler = self.parser.add_subparsers(dest='command')
-        self.subparsers_handler.required = True
+        self.subparsers_handler.required = False
 
         # Build
         self.subparser_build = self.subparsers_handler.add_parser("build", help="Build the game for one platform")
@@ -65,6 +65,10 @@ class Parser:
 
     def parse_args(self):
         args = self.parser.parse_args()
+        if args.command is None:
+            self.parser.print_help()
+            return
+
         command = args.command
         platform = None if not hasattr(args, "platform") else args.platform[0] if isinstance(args.platform, list) else args.platform
 
