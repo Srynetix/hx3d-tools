@@ -62,8 +62,8 @@ class Handler:
 
     def get_providers_command(self):
         providers = {
-            "AUDIO_PROVIDER": config.providers["audio"],
-            "WINDOW_PROVIDER": config.providers["window"]
+            "AUDIO_PROVIDER": config.providers.audio,
+            "WINDOW_PROVIDER": config.providers.window
         }
 
         return reduce(lambda acc, item: acc + "-D{}={} ".format(item[0], item[1]), providers.items(), "")
