@@ -68,14 +68,14 @@ class Handler:
 
         return reduce(lambda acc, item: acc + "-D{}={} ".format(item[0], item[1]), providers.items(), "")
 
-
     ##########
 
     def build(self):
         raise NotImplementedError("You can't build for platform {}".format(self.platform))
 
     def generate(self):
-        raise NotImplementedError("You can't generate for platform {}".format(self.platform))
+        from platforms.generator import generate
+        generate(self.args)
 
     def clean(self):
         Command("rm -r {}".format(self.build_folder), stderr=False).execute()

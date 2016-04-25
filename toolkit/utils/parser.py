@@ -50,9 +50,9 @@ class Parser:
 
         # Generate
         self.subparser_generate = self.subparsers_handler.add_parser("generate", help="Generate a new game project")
-        self.subparser_generate.add_argument("name", nargs=1, help="Game name")
-        self.subparser_generate.add_argument("directory", nargs=1, help="Game directory")
-        self.subparser_generate.add_argument("package_name", nargs=1, help="Package name")
+        self.subparser_generate.add_argument("name", type=str, nargs=1, help="Game name")
+        self.subparser_generate.add_argument("directory", type=str, nargs=1, help="Game directory")
+        self.subparser_generate.add_argument("package_name", type=str, nargs=1, help="Package name")
 
         # Build doc
         self.subparser_doc = self.subparsers_handler.add_parser("doc", help="Generate the documentation")

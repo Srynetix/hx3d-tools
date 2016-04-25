@@ -20,6 +20,15 @@ providers:
   audio: SDL2
   window: SDL2
 
+# Generator
+generator:
+  framework:
+    repository: https://github.com/Srynetix/hx3d-framework.git
+    branch: new_gen
+  tools:
+    repository: https://github.com/Srynetix/hx3d-tools.git
+    branch: master
+
 # Memcheck configuration
 memcheck:
   tool: valgrind --leak-check=full --suppressions=../../tools/toolkit/valgrind.supp
