@@ -20,6 +20,10 @@ providers:
   audio: SDL2
   window: SDL2
 
+# Memcheck configuration
+memcheck:
+  tool: valgrind --leak-check=full --suppressions=../../tools/toolkit/valgrind.supp
+
 # Dependency fetch configuration
 dependencies:
   - name: "SDL2"

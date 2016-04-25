@@ -30,6 +30,7 @@ class Parser:
         self.subparser_build = self.subparsers_handler.add_parser("build", help="Build the game for one platform")
         self.subparser_build.add_argument("platform", nargs=1, help="Platform type", choices=PLATFORMS.keys())
         self.subparser_build.add_argument("-t", "--tests", action="store_true", help="Build tests")
+        self.subparser_build.add_argument("-c", "--clean", action="store_true", help="Clean the game before building")
 
         # Clean
         self.subparser_clean = self.subparsers_handler.add_parser("clean", help="Clean a build for one platform")
@@ -40,7 +41,7 @@ class Parser:
         self.subparser_execute.add_argument("platform", nargs=1, help="Platform type", choices=PLATFORMS.keys())
         self.subparser_execute.add_argument("-t", "--tests", action="store_true", help="Execute tests")
         self.subparser_execute.add_argument("-d", "--debug", action="store_true", help="Debug the executable")
-        self.subparser_execute.add_argument("-b", "--build", action="store_true", help="Build the game before executing")
+        self.subparser_execute.add_argument("-m", "--memcheck", action="store_true", help="Memcheck the executable (slow)")
 
         # Package
         self.subparser_package = self.subparsers_handler.add_parser("package", help="Package the game (or tests) for one platform")

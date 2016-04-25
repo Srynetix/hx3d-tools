@@ -1,0 +1,81 @@
+{
+   xcb1
+   Memcheck:Param
+   writev(vector[...])
+   obj:/usr/lib/libc-2.23.so
+   obj:/usr/lib/libxcb.so.1.1.0
+   obj:/usr/lib/libxcb.so.1.1.0
+   fun:xcb_writev
+   fun:_XSend
+   fun:_XReply
+   fun:_XGetWindowAttributes
+   fun:XGetWindowAttributes
+   obj:/usr/lib/libX11.so.6.3.0
+   fun:_XimSetICDefaults
+   fun:_XimSetICDefaults
+   fun:_XimLocalCreateIC
+}
+
+{
+  xcb2
+  Memcheck:Param
+  writev(vector[...])
+  fun:__writev_nocancel
+  obj:/usr/lib/libxcb.so.1.1.0
+}
+
+{
+   i965
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:/usr/lib/xorg/modules/dri/i965_dri.so
+}
+
+{
+   i965m
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:/usr/lib/xorg/modules/dri/i965_dri.so
+}
+
+{
+   i965p
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:memalign
+   fun:posix_memalign
+   obj:/usr/lib/xorg/modules/dri/i965_dri.so
+}
+
+{
+   i965pm
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   obj:/usr/lib/xorg/modules/dri/i965_dri.so
+}
+
+{
+   GL
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:/usr/lib/mesa/libGL.so.1.2.0
+}
+
+{
+   GL2
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:/usr/lib/mesa/libGL.so.1.2.0
+}
+
+{
+  INTEL
+  Memcheck:Leak
+   match-leak-kinds: definite
+   obj:/usr/lib/libdrm_intel.so.1.0.0
+}

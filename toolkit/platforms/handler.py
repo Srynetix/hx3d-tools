@@ -15,13 +15,18 @@ class Handler:
 
         self.tests = "tests" in self.args and self.args.tests
         self.debug = "debug" in self.args and self.args.debug
+        self.memcheck = "memcheck" in self.args and self.args.memcheck
 
     def handle(self):
         test_mode = " (test mode)" if self.tests else ""
         debug_mode = " (w/ debug)" if self.debug else ""
+        memcheck_mode = " (w/ memcheck)" if self.memcheck else ""
         platform = "all" if self.platform is None else self.platform
 
         if self.command == "build":
+            if self.args.clean:
+                color_print("> Cleaning for {}{}...".format(platform, test_mode), color=Fore.YELLOW)
+                self.clean()
             color_print("> Building for {}{}...".format(platform, test_mode), color=Fore.YELLOW)
             self.build()
         elif self.command == "generate":
@@ -30,10 +35,7 @@ class Handler:
             color_print("> Cleaning for {}...".format(platform), color=Fore.YELLOW)
             self.clean()
         elif self.command == "execute":
-            if self.args.build:
-                color_print("> Building for {}{}...".format(platform, test_mode), color=Fore.YELLOW)
-                self.build()
-            color_print("> Executing for {}{}{}...".format(platform, test_mode, debug_mode), color=Fore.YELLOW)
+            color_print("> Executing for {}{}{}...".format(platform, test_mode, debug_mode or memcheck_mode), color=Fore.YELLOW)
             self.execute()
         elif self.command == "package":
             self.package()

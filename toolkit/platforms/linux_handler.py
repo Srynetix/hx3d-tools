@@ -23,12 +23,13 @@ class LinuxHandler(Handler):
         self.check_for_build_folder()
 
         game_dir = "tests" if self.tests else "game"
-        debug_cmd = "{} ".format(config.debugger) if self.debug else ""
+        debug_cmd = config.debugger if self.debug else ""
+        memcheck_cmd = config.memcheck.tool if self.memcheck else ""
 
         Command.executeCommands([
             CopyDirectoryCommand("engine/assets", "_build_linux/{}/assets".format(game_dir)),
             CopyDirectoryCommand("{}/assets".format(game_dir), "_build_linux/{}/assets".format(game_dir)),
-            Command("cd _build_linux/{dir} && {cmd}./{dir}".format(cmd=debug_cmd, dir=game_dir), stdout=True),
+            Command("cd _build_linux/{dir} && {cmd} ./{dir}".format(cmd=debug_cmd or memcheck_cmd, dir=game_dir), stdout=True),
         ])
 
     def dep_fetch(self):
