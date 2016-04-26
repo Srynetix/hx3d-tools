@@ -94,7 +94,7 @@ def _generate_template(params):
 
 # GET THE ENGINE #########################
 
-def _create_project(params):
+def _create_project(args, params):
 
     folder = params["folder"]
 
@@ -102,15 +102,17 @@ def _create_project(params):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    # Framework check
-    cprint("> Fetching the hx3d framework to `{}`.".format(folder), color=Fore.GREEN)
+    if not args.game_only:
+        
+        # Framework check
+        cprint("> Fetching the hx3d framework to `{}`.".format(folder), color=Fore.GREEN)
 
-    Command.executeCommands([
-        Command("git clone --depth=1 {} -b {} {}".format(config.generator.framework.repository, config.generator.framework.branch, folder)),
-        Command("cd {} && ./clone_dependencies.sh".format(folder)),
-        Command("cd {} && git clone --depth=1 {} -b {} tools".format(folder, config.generator.tools.repository, config.generator.tools.branch)),
-        Command("cd {} && rm -rf .git".format(folder))
-    ])
+        Command.executeCommands([
+            Command("git clone --depth=1 {} -b {} {}".format(config.generator.framework.repository, config.generator.framework.branch, folder)),
+            Command("cd {} && ./clone_dependencies.sh".format(folder)),
+            Command("cd {} && git clone --depth=1 {} -b {} tools".format(folder, config.generator.tools.repository, config.generator.tools.branch)),
+            Command("cd {} && rm -rf .git".format(folder))
+        ])
 
     # Generate template
     _generate_template(params)
@@ -127,4 +129,4 @@ def generate(args):
         "android_sdk_dir": "/opt/android-sdk"
     }
 
-    _create_project(params)
+    _create_project(args, params)

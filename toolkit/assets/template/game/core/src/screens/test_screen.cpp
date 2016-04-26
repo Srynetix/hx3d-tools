@@ -95,5 +95,3 @@ void TestScreen::render() {
 
   batch.end();
 }
-
-

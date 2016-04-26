@@ -1,6 +1,6 @@
 set(GAME_NAME "game")
 
-include(../cmake/system_check.cmake)
+include(../cmake/dependencies/system_check.cmake)
 
 ##################
 ## Arguments
@@ -84,5 +84,3 @@ else()
   add_executable(${GAME_NAME} ${DESKTOP_FILES})
   target_link_libraries(${GAME_NAME} LINK_PUBLIC hx3d ${DESKTOP_LIBRARIES})
 endif()
-
-

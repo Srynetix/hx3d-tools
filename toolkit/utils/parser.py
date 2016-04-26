@@ -53,6 +53,7 @@ class Parser:
         self.subparser_generate.add_argument("name", type=str, nargs=1, help="Game name")
         self.subparser_generate.add_argument("directory", type=str, nargs=1, help="Game directory")
         self.subparser_generate.add_argument("package_name", type=str, nargs=1, help="Package name")
+        self.subparser_generate.add_argument("-g", "--game-only", action="store_true", help="Only generate the game (w/o engine and tools)")
 
         # Build doc
         self.subparser_doc = self.subparsers_handler.add_parser("doc", help="Generate the documentation")
