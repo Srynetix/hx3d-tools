@@ -1,5 +1,5 @@
-dep-builder/src
-dep-builder/build
-
 __pycache__
 *.pyc
+*.egg
+toolkit/dist
+toolkit/build

@@ -17,7 +17,7 @@ class MainHandler(Handler):
             Command("{} site/doc/html/index.html".format(config.web_browser)).execute()
 
     def clean(self):
-        Command("rm -rf _build*", stderr=True).execute()
+        Command("rm -rf _build*", stderr=False).execute()
 
     def dep_fetch(self):
         fetch_folder = get_fetch_folder("common")
