@@ -63,6 +63,7 @@ class Parser:
         # Dep-fetch
         self.subparser_depfetch = self.subparsers_handler.add_parser("dep-fetch", help="Fetch dependencies for one platform")
         self.subparser_depfetch.add_argument("platform", nargs="?", help="Platform type", choices=PLATFORMS.keys())
+        self.subparser_depfetch.add_argument("-c", "--use-cache", action="store_true", help="Do not download the sources")
 
         self.parse_args()
 

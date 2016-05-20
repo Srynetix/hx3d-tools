@@ -2,7 +2,7 @@
 #####################
 
 # Debug mode
-debug_mode: False
+debug_mode: True
 
 # Compiler and debugger
 cxx_compiler: clang++

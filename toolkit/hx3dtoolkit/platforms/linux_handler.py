@@ -11,12 +11,15 @@ class LinuxHandler(Handler):
     #####
 
     def build(self):
-        tests_active = "-DTESTS=ON" if self.tests else ""
+        tests_active = "-DTESTS=ON" if self.tests else "-DGAME=ON"
+        game_dir = "tests" if self.tests else "game"
 
         Command.executeCommands([
             CreateDirectoryCommand(self.build_folder),
             Command("cd _build_linux && CXX={} cmake -G Ninja {} {} ..".format(config.cxx_compiler, self.get_providers_command(), tests_active)),
             Command("cd _build_linux && ninja", stdout=True),
+            CopyDirectoryCommand("engine/assets", "_build_linux/{}/assets".format(game_dir)),
+            CopyDirectoryCommand("{}/assets".format(game_dir), "_build_linux/{}/assets".format(game_dir)),
         ])
 
     def execute(self):
@@ -27,8 +30,6 @@ class LinuxHandler(Handler):
         memcheck_cmd = config.memcheck.tool if self.memcheck else ""
 
         Command.executeCommands([
-            CopyDirectoryCommand("engine/assets", "_build_linux/{}/assets".format(game_dir)),
-            CopyDirectoryCommand("{}/assets".format(game_dir), "_build_linux/{}/assets".format(game_dir)),
             Command("cd _build_linux/{dir} && {cmd} ./{dir}".format(cmd=debug_cmd or memcheck_cmd, dir=game_dir), stdout=True),
         ])
 
@@ -39,7 +40,7 @@ class LinuxHandler(Handler):
 
         super().dep_fetch()
 
-        with fetch_library(self.platform, "SDL2") as library_info:
+        with fetch_library(self.platform, "SDL2", source=not args.use_cache) as library_info:
             multiple_executions_in_folder(self.platform, library_info, [
                 "mkdir -p ../build/include/SDL2",
                 "mkdir -p linux-build",
@@ -49,7 +50,7 @@ class LinuxHandler(Handler):
                 "cp -r linux-build/*.a ../build/lib/",
             ])
 
-        with fetch_library(self.platform, "SDL2_mixer") as library_info:
+        with fetch_library(self.platform, "SDL2_mixer", source=not args.use_cache) as library_info:
             multiple_executions_in_folder(self.platform, library_info, [
                 "./configure",
                 "make",
@@ -57,7 +58,7 @@ class LinuxHandler(Handler):
                 "cp SDL_mixer.h ../build/include/SDL2/",
             ])
 
-        with fetch_library(self.platform, "freetype") as library_info:
+        with fetch_library(self.platform, "freetype", source=not args.use_cache) as library_info:
             multiple_executions_in_folder(self.platform, library_info, [
                 "mkdir -p linux-build",
                 "cd linux-build && cmake -G Ninja ..",
@@ -66,7 +67,7 @@ class LinuxHandler(Handler):
                 "cp -r linux-build/include/* ../build/include/",
             ])
 
-        with fetch_library(self.platform, "freetype-gl") as freetype_gl:
+        with fetch_library(self.platform, "freetype-gl", source=not args.use_cache) as freetype_gl:
             multiple_executions_in_folder(self.platform, freetype_gl, [
                 "mkdir -p linux-build",
                 "cd linux-build && cmake -G Ninja -Dfreetype-gl_BUILD_DEMOS=OFF -Dfreetype-gl_BUILD_APIDOC=OFF -Dfreetype-gl_BUILD_MAKEFONT=OFF -Dfreetype-gl_LIBS_SUPPLIED=ON -Dfreetype-gl_GLFW_SUPPLIED=ON ..",
@@ -74,7 +75,7 @@ class LinuxHandler(Handler):
                 "cp linux-build/*.a ../build/lib/",
             ])
 
-        with fetch_library(self.platform, "gtest") as gtest:
+        with fetch_library(self.platform, "gtest", source=not args.use_cache) as gtest:
             multiple_executions_in_folder(self.platform, gtest, [
                 "mkdir -p linux-build",
                 "cd linux-build && cmake -G Ninja ..",

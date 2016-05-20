@@ -15,9 +15,7 @@ setup(
 
     scripts = ['hx3d-toolkit'],
 
-    # Project uses reStructuredText, so ensure that the docutils get
-    # installed or upgraded on the target machine
-    install_requires = ['colorama', 'pyyaml', 'yamlordereddictloader'],
+    # install_requires = ['colorama', 'pyyaml', 'yamlordereddictloader'],
 
     package_data = {'hx3dtoolkit': datafiles},
 
