@@ -1,5 +1,9 @@
 from hx3dtoolkit.config import config
+from hx3dtoolkit.utils.color_print import color_print as cprint
 import os
+import sys
+
+from colorama import Fore
 
 class Command:
     def __init__(self, command, **options):
@@ -7,12 +11,14 @@ class Command:
         self.options = options
 
     def execute(self):
-        self.__class__.executeRawCommand(self.command, **self.options)
+        return self.__class__.executeRawCommand(self.command, **self.options)
 
     @staticmethod
     def executeCommands(commands):
         for command in commands:
-            command.execute()
+            if command.execute() != 0:
+                cprint("> Error", color=Fore.RED)
+                sys.exit()
 
     @staticmethod
     def executeRawCommand(command, stderr=True, stdout=False):
@@ -28,4 +34,6 @@ class Command:
 
         code = os.system(command)
         if code != 0 and stderr:
-            print("- Error Code: ", code)
+            cprint("- Error Code: {}".format(code), color=Fore.RED)
+            return code
+        return 0

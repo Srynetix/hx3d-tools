@@ -30,6 +30,9 @@ class Handler:
                 self.clean()
             color_print("> Building for {}{}...".format(platform, test_mode), color=Fore.YELLOW)
             self.build()
+            if self.args.execute:
+                color_print("> Executing for {}{}{}...".format(platform, test_mode, debug_mode or memcheck_mode), color=Fore.YELLOW)
+                self.execute()
         elif self.command == "generate":
             self.generate()
         elif self.command == "clean":

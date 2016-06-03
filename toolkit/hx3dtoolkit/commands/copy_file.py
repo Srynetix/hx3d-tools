@@ -18,5 +18,7 @@ class CopyFileCommand:
             if config.debug_mode:
                 print('[D] Copying `{}` to `{}`'.format(self.source, self.destination))
             shutil.copy(self.source, self.destination)
+            return 0
         except OSError as e:
             print('[D] Error while copying `{}` to `{}`. Error: `{}`'.format(self.source, self.destination, e))
+            return 1

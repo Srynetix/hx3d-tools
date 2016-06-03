@@ -14,3 +14,4 @@ class CreateDirectoryCommand:
         else:
             if config.debug_mode:
                 print("[D] {} already exists. Passing...".format(self.destination))
+        return 0

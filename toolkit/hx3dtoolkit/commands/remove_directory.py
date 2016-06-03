@@ -15,3 +15,4 @@ class RemoveDirectoryCommand:
         else:
             if config.debug_mode:
                 print('[D] Directory {} does not exist. Not removing...'.format(self.directory))
+        return 0

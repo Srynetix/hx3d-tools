@@ -32,6 +32,7 @@ class Parser:
         self.subparser_build.add_argument("platform", nargs=1, help="Platform type", choices=PLATFORMS.keys())
         self.subparser_build.add_argument("-t", "--tests", action="store_true", help="Build tests")
         self.subparser_build.add_argument("-c", "--clean", action="store_true", help="Clean the game before building")
+        self.subparser_build.add_argument("-e", "--execute", action="store_true", help="Execute the game after building")
 
         # Clean
         self.subparser_clean = self.subparsers_handler.add_parser("clean", help="Clean a build for one platform")
