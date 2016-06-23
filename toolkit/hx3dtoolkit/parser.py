@@ -18,8 +18,8 @@ from colorama import Fore, Style
 
 from hx3dtoolkit.platform import PLATFORMS
 from hx3dtoolkit.utils.color_print import color_print
-from hx3dtoolkit.utils.dependency_fetch import get_fetch_folder
-from hx3dtoolkit.platforms.main_handler import MainHandler
+from hx3dtoolkit.platforms.common_handler import CommonHandler
+# from hx3dtoolkit.utils.dependency_fetch import get_fetch_folder
 
 class Parser:
     def __init__(self):
@@ -80,7 +80,7 @@ class Parser:
         color_print("\nhx3d toolkit -- let's start !\n", color=Fore.CYAN)
 
         if platform is None:
-            MainHandler(command, args).handle()
+            CommonHandler(command, args).handle()
         elif platform in PLATFORMS:
             PLATFORMS[platform](command, args).handle()
         else:

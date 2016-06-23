@@ -2,7 +2,6 @@ from colorama import Fore, Style
 
 from hx3dtoolkit.utils.color_print import color_print
 from hx3dtoolkit.commands import *
-from hx3dtoolkit.utils.dependency_fetch import get_fetch_folder
 from hx3dtoolkit.config import config
 
 from functools import reduce
@@ -91,14 +90,17 @@ class Handler:
         raise NotImplementedError("You can't package for platform {}".format(self.platform))
 
     def dep_fetch(self):
-        fetch_folder = get_fetch_folder(self.platform)
-        build_folder = "{}/build".format(fetch_folder)
+        raise NotImplementedError("You can't dep-fetch for platform{}".format(self.platform))
 
-        Command.executeCommands([
-            RemoveDirectoryCommand(fetch_folder),
-            CreateDirectoryCommand(fetch_folder),
-
-            CreateDirectoryCommand(build_folder),
-            CreateDirectoryCommand("{}/lib".format(build_folder)),
-            CreateDirectoryCommand("{}/include".format(build_folder)),
-        ])
+    # def dep_fetch(self):
+    #     fetch_folder = get_fetch_folder(self.platform)
+    #     build_folder = "{}/build".format(fetch_folder)
+    #
+    #     Command.executeCommands([
+    #         RemoveDirectoryCommand(fetch_folder),
+    #         CreateDirectoryCommand(fetch_folder),
+    #
+    #         CreateDirectoryCommand(build_folder),
+    #         CreateDirectoryCommand("{}/lib".format(build_folder)),
+    #         CreateDirectoryCommand("{}/include".format(build_folder)),
+    #     ])

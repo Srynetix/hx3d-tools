@@ -24,6 +24,6 @@ class Config(metaclass=Singleton):
 
         with open("{}/dependencies.yml".format(toolkit_directory), "r") as dep_content:
             yaml_content = yaml.load(dep_content.read(), Loader=yamlordereddictloader.Loader)
-            self.config["dependencies"] = FrozenDict(yaml_content, freeze_children=True)
+            self.config["dependencies"] = yaml_content
 
 config = Config().config
