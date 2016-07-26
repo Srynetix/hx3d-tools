@@ -124,7 +124,7 @@ class AndroidHandler(Handler):
 
         if self.tests:
             Command.executeCommands([
-                Command("cd tests/android && ant debug install -q"),
+                Command("cd tests/android && adb install -r bin/Tests-debug.apk"),
             ])
         else:
             Command.executeCommands([
